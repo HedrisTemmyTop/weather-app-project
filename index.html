@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin=""
+    />
+    <script
+      defer
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+      crossorigin=""
+    ></script>
+
+    <script type="module" defer src="script.js"></script>
+    <title>Weather App</title>
+  </head>
+  <body>
+    <header class="header light">
+      <div class="header__head">
+        <h2 class="header__head--text">Where in the world ?</h2>
+      </div>
+      <button class="header__toggle">
+        <ion-icon name="moon-outline" class="header__toggle--icon"></ion-icon>
+        <h4 class="header__toggle--text">Dark Mode</h4>
+      </button>
+    </header>
+    <main class="main main-default">
+      <div class="main__search">
+        <form action="" class="main__search--form">
+          <input
+            type="text"
+            class="main__search--input"
+            placeholder="Search for a country..."
+          />
+        </form>
+        <div class="main__filter">
+          <button type="button" class="main__filter--btn">
+            <select name="region" id="region" class="select">
+              <option value="0" class="select-item">Filter by Region</option>
+
+              <option class="select-item" value="1">Africa</option>
+              <option class="select-item" value="2">South America</option>
+              <option class="select-item" value="3">Asia</option>
+              <option class="select-item" value="4">Australia</option>
+              <option class="select-item" value="5">Europe</option>
+              <option class="select-item" value="6">North America</option>
+            </select>
+          </button>
+          <!--<di class="main__content">
+            <h4>Afica</h4>
+          </div> -->
+        </div>
+      </div>
+      <div class="main__content">
+        <div class="main__countries"></div>
+      </div>
+      <section class="country">
+        <!-- <button class="btn--back">
+          <ion-icon name="arrow-back-outline" class="back--icon"></ion-icon>
+          <span>Back</span>
+        </button> -->
+
+        <!-- <div class="country__content">
+          <img src="./design/ngn.png" alt="" class="country__content--img" />
+          <div class="country__content--main">
+            <div class="country__main--sub">
+              <div class="left">
+                <h2 class="country__content--name">Belgium</h2>
+                <div class="county__box--list">
+                  <h4>Native Name:</h4>
+                  <p class="county__box--text">Beligie</p>
+                </div>
+                <div class="county__box--list">
+                  <h4>Population:</h4>
+                  <p class="county__box--text">81,000,000</p>
+                </div>
+                <div class="county__box--list">
+                  <h4>Region:</h4>
+                  <p class="county__box--text">Europe</p>
+                </div>
+                <div class="county__box--list">
+                  <h4>Sub Region:</h4>
+                  <p class="county__box--text">Western Europe</p>
+                </div>
+                <div class="county__box--list">
+                  <h4>Capital:</h4>
+                  <p class="county__box--text">Lome</p>
+                </div>
+              </div>
+              <div class="right">
+                <div class="county__box--list">
+                  <h4>Top Level Domain:</h4>
+                  <p class="county__box--text">be</p>
+                </div>
+                <div class="county__box--list">
+                  <h4>Currencies:</h4>
+                  <p class="county__box--text">Euro</p>
+                </div>
+                <div class="county__box--list">
+                  <h4>Languages:</h4>
+                  <p class="county__box--text">Dutch</p>
+                </div>
+              </div>
+            </div>
+            <div class="country__main--sub2">
+              <h3 class="country__content--border">Border Countries:</h3>
+              <button class="btn--border">Netherlands</button>
+              <button class="btn--border">France</button>
+              <button class="btn--border">France</button>
+              <button class="btn--border">France</button>
+            </div>
+          </div>
+        </div>
+        <div class="country__details">
+          <div>
+            <h2 class="country__content--name">Weather Algeria</h2>
+            <div class="country__weather">
+              <div class="countr__weather--details">
+                <h4>Clear</h4>
+                <i class="county__box--text">Clear sky</i>
+              </div>
+              <img src="./design/cloud.jpg" alt="" class="cloud" />
+            </div>
+            <table class="country__data">
+              <tr>
+                <td><h4>Temperature:</h4></td>
+                <td class="table-col">
+                  <ion-icon name="thermometer-outline"></ion-icon>
+                  <p>32.56 C</p>
+                </td>
+              </tr>
+              <tr>
+                <td><h4>Humidity:</h4></td>
+                <td class="table-col">
+                  <ion-icon name="water"></ion-icon>
+                  <p>32.56 C</p>
+                </td>
+              </tr>
+              <tr>
+                <td><h4>Cloudness:</h4></td>
+                <td class="table-col">
+                  <ion-icon name="cloud"></ion-icon>
+                  <p>32.56 C</p>
+                </td>
+              </tr>
+              <tr class="table-row">
+                <td><h4>Wind Speed:</h4></td>
+                <td class="table-col">
+                  <p>32.56 C</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="country__map" id="map"></div>
+        </div> -->
+      </section>
+      <!-- <div class="main__box">
+        <img src="./design/ngn.png" class="main__box--img" />
+        <h3 class="main__box--country">Germany</h3>
+        <div class="main__box--list">
+          <h4>Population:</h4>
+          <p class="main__box--text">81,000,000</p>
+        </div>
+        <div class="main__box--list">
+          <h4>Region:</h4>
+          <p class="main__box--text">Europe</p>
+        </div>
+        <div class="main__box--list">
+          <h4>Capital:</h4>
+          <p class="main__box--text">Abuja</p>
+        </div>
+      </div> -->
+    </main>
+    <!-- <ion-icon name="moon-outline"></ion-icon>
+    <ion-icon name="search-outline"></ion-icon> -->
+
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+  </body>
+</html>
