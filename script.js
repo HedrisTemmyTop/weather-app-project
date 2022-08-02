@@ -1,16 +1,17 @@
-const countryContainer = document.querySelector(".main__countries");
-const formCountry = document.querySelector(".main__search--form");
-const countryValue = document.querySelector(".main__search--input");
-const regionDom = document.querySelector(".select");
-const header = document.querySelector(".header");
-const main = document.querySelector(".main");
-const toggleBtn = document.querySelector(".header__toggle");
-const toggleIcon = document.querySelector(".header__toggle--icon");
-const filterBtn = document.querySelector(".main__filter--btn");
-const input = document.querySelector(".main__search--input");
-const mainContent = document.querySelector(".main__content");
-const mainSearch = document.querySelector(".main__search");
-const backBtn = document.querySelector(".btn--back");
+const countryContainer = document.querySelector('.main__countries');
+const formCountry = document.querySelector('.main__search--form');
+const countryValue = document.querySelector('.main__search--input');
+const regionDom = document.querySelector('.select');
+const header = document.querySelector('.header');
+const main = document.querySelector('.main');
+const toggleBtn = document.querySelector('.header__toggle');
+const toggleIcon = document.querySelector('.header__toggle--icon');
+const filterBtn = document.querySelector('.main__filter--btn');
+const input = document.querySelector('.main__search--input');
+const mainContent = document.querySelector('.main__content');
+const mainSearch = document.querySelector('.main__search');
+const backBtn = document.querySelector('.btn--back');
+const mainDefault = document.querySelector('.country');
 
 // const main = document.querySelector(".main")
 //////////////////////
@@ -57,7 +58,7 @@ const weatherMarkup = function (data, dataCountry) {
   const { languages } = dataCountry;
   const language = Object.keys(languages)
     .map((key) => languages[key])
-    .join(", ");
+    .join(', ');
   return `<div class="country__content">
     <img src="${dataCountry.flags.png}" alt="" class="country__content--img" />
     <div class="country__content--main">
@@ -170,13 +171,13 @@ const sortData = function (data) {
 /// display all countries
 
 const displayCountry = async function () {
-  const dataCountry = await fetch("https://restcountries.com/v3.1/all");
+  const dataCountry = await fetch('https://restcountries.com/v3.1/all');
 
   const data = await dataCountry.json();
   sortData(data);
   data.forEach((data) => {
     const html = dataMarkup(data);
-    countryContainer.insertAdjacentHTML("beforeend", html);
+    countryContainer.insertAdjacentHTML('beforeend', html);
   });
 };
 // console.log("Hello world");
@@ -194,26 +195,26 @@ const displayResult = async function (name) {
     sortData(data);
     data.forEach((data) => {
       const html = dataMarkup(data);
-      countryContainer.insertAdjacentHTML("beforeend", html);
+      countryContainer.insertAdjacentHTML('beforeend', html);
     });
     return data;
   } catch (err) {
     console.log(err);
   }
 };
-["submit"].forEach((ev) => {
+['submit'].forEach((ev) => {
   formCountry.addEventListener(ev, function (e) {
     e.preventDefault();
-    countryContainer.innerHTML = "";
+    countryContainer.innerHTML = '';
     displayResult(countryValue.value);
   });
 });
 
 // filter
 
-regionDom.addEventListener("change", function () {
+regionDom.addEventListener('change', function () {
   const region = regionDom.options[regionDom.selectedIndex].text;
-  countryContainer.innerHTML = "";
+  countryContainer.innerHTML = '';
   const displayResultFilter = async function (name) {
     try {
       const dataCountry = await fetch(
@@ -224,7 +225,7 @@ regionDom.addEventListener("change", function () {
       sortData(data);
       data.forEach((data) => {
         const html = dataMarkup(data);
-        countryContainer.insertAdjacentHTML("beforeend", html);
+        countryContainer.insertAdjacentHTML('beforeend', html);
       });
       console.log(data);
     } catch (err) {
@@ -236,25 +237,25 @@ regionDom.addEventListener("change", function () {
 
 const toggleFunction = async function () {
   await displayCountry();
-  const mainBox = document.querySelectorAll(".main__box");
+  const mainBox = document.querySelectorAll('.main__box');
 
   // displayResultFilter();
-  toggleBtn.addEventListener("click", function () {
-    header.classList.toggle("change");
-    toggleIcon.classList.toggle("icon-change");
-    main.classList.toggle("main-change");
-    input.classList.toggle("change");
-    filterBtn.classList.toggle("change");
-    regionDom.classList.toggle("change");
+  toggleBtn.addEventListener('click', function () {
+    header.classList.toggle('change');
+    toggleIcon.classList.toggle('icon-change');
+    main.classList.toggle('main-change');
+    input.classList.toggle('change');
+    filterBtn.classList.toggle('change');
+    regionDom.classList.toggle('change');
 
-    if (header.classList.contains("change")) {
+    if (header.classList.contains('change')) {
     } else {
-      header.style.boxShadow = "0 0rem 0.3rem rgba(0, 0, 0, 0.3);";
+      header.style.boxShadow = '0 0rem 0.3rem rgba(0, 0, 0, 0.3);';
     }
 
     // mainBox.style.backgroundColor = "black";
     mainBox.forEach((main) => {
-      main.classList.toggle("change");
+      main.classList.toggle('change');
       //   main.style.boxShadow = ";
     });
   });
@@ -278,10 +279,10 @@ const weatherApi = async function (country) {
   const [lat, lon] = dataCountry.latlng;
   const html = weatherMarkup(data, dataCountry);
 
-  document.querySelector(".country").insertAdjacentHTML("beforeend", html);
-  let map = L.map("map").setView([lat, lon], 4);
+  document.querySelector('.country').insertAdjacentHTML('beforeend', html);
+  let map = L.map('map').setView([lat, lon], 4);
 
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
@@ -291,15 +292,16 @@ const weatherApi = async function (country) {
   console.log(data, coord);
 };
 const showCountryWeather = async function () {
-  const location = window.location.hash.split("").slice(1).join("");
+  const location = window.location.hash.split('').slice(1).join('');
   if (!location) return;
-  mainContent.innerHTML = "";
-  mainSearch.innerHTML = "";
+  mainContent.innerHTML = '';
+  mainSearch.innerHTML = '';
+  mainDefault.innerHTML = '';
 
   await weatherApi(location);
 };
 
-const arr = ["hashchange", "load"];
+const arr = ['hashchange', 'load'];
 arr.forEach((ev) => {
   //   location.reload(true);
   window.addEventListener(ev, showCountryWeather);
