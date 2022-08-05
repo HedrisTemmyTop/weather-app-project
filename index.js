@@ -1,7 +1,7 @@
 const countryContainer = document.querySelector(".main__countries");
 const formCountry = document.querySelector(".main__search--form");
 const countryValue = document.querySelector(".main__search--input");
-const regionDom = document.getElementById("select");
+const regionDom = document.querySelector(".select");
 const header = document.querySelector(".header");
 const main = document.querySelector(".main");
 const toggleBtn = document.querySelector(".header__toggle");
@@ -30,13 +30,11 @@ const dataMarkup = function (data) {
     </div>
     <div class="main__box--list">
       <h4>Region:</h4>
-      <p class="main__box--text">${data.region}</p>
+      <p class="main__box--text">Europe</p>
     </div>
     <div class="main__box--list">
       <h4>Capital:</h4>
-      <p class="main__box--text">${
-        data.capital ? data.capital : "No capital"
-      }</p>
+      <p class="main__box--text">Abuja</p>
     </div>
   </div></a>`;
 };
@@ -61,11 +59,7 @@ const weatherMarkup = function (data, dataCountry) {
   const language = Object.keys(languages)
     .map((key) => languages[key])
     .join(", ");
-  return `<button class="btn--back">
-  <ion-icon name="arrow-back-outline" class="back--icon"></ion-icon>
-  <span>Back</span>
-</button>
-  <div class="country__content">
+  return `<div class="country__content">
     <img src="${dataCountry.flags.png}" alt="" class="country__content--img" />
     <div class="country__content--main">
       <div class="country__main--sub">
@@ -161,28 +155,7 @@ const weatherMarkup = function (data, dataCountry) {
     <div class="country__map" id="map"></div>
   </div> `;
 };
-// filter
-regionDom.addEventListener("change", function () {
-  const region = regionDom.options[regionDom.selectedIndex].text;
-  countryContainer.innerHTML = "";
-  const displayResultFilter = async function (name) {
-    try {
-      const dataCountry = await fetch(
-        `https://restcountries.com/v3.1/region/${name}`
-      );
 
-      const data = await dataCountry.json();
-      sortData(data);
-      data.forEach((data) => {
-        const html = dataMarkup(data);
-        countryContainer.insertAdjacentHTML("beforeend", html);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  displayResultFilter(region);
-});
 ///
 const sortData = function (data) {
   data.sort((a, b) => {
@@ -207,8 +180,8 @@ const displayCountry = async function () {
     countryContainer.insertAdjacentHTML("beforeend", html);
   });
 };
-
-window.addEventListener("load", displayCountry);
+// console.log("Hello world");
+displayCountry();
 
 // const displaySearchedCountry
 const displayResult = async function (name) {
@@ -237,7 +210,33 @@ const displayResult = async function (name) {
   });
 });
 
-const toggleFunction = function () {
+// filter
+
+regionDom.addEventListener("change", function () {
+  const region = regionDom.options[regionDom.selectedIndex].text;
+  countryContainer.innerHTML = "";
+  const displayResultFilter = async function (name) {
+    try {
+      const dataCountry = await fetch(
+        `https://restcountries.com/v3.1/region/${name}`
+      );
+
+      const data = await dataCountry.json();
+      sortData(data);
+      data.forEach((data) => {
+        const html = dataMarkup(data);
+        countryContainer.insertAdjacentHTML("beforeend", html);
+      });
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  displayResultFilter(region);
+});
+
+const toggleFunction = async function () {
+  await displayCountry();
   const mainBox = document.querySelectorAll(".main__box");
 
   // displayResultFilter();
@@ -274,6 +273,7 @@ const weatherApi = async function (country) {
   const [dataCountry] = await dataCountryPromise.json();
 
   const data = await dataWeather.json();
+  console.log(dataCountry);
   /// Declarations
   const { coord } = data;
   const [lat, lon] = dataCountry.latlng;
@@ -288,69 +288,46 @@ const weatherApi = async function (country) {
   }).addTo(map);
 
   L.marker([lat, lon]).addTo(map).openPopup();
+
+  console.log(data, coord);
 };
 const showCountryWeather = async function () {
   const location = window.location.hash.split("").slice(1).join("");
   if (!location) {
     mainDefault.innerHTML = "";
     mainSearch.innerHTML = `<form action="" class="main__search--form">
-    <input
-      type="text"
-      class="main__search--input"
-      placeholder="Search for a country..."
-    />
-  </form>
-  <div class="main__filter">
-    <button type="button" class="main__filter--btn">
-      <select name="region" id="select" class="select">
-      <option class="select-item" value="1" disable>Filter by Region</option>
-       
-        <option class="select-item" value="1">Africa</option>
-        <option class="select-item" value="2">America</option>
-        <option class="select-item" value="3">Asia</option>
-        <option class="select-item" value="4">Europe</option>
-        <option class="select-item" value="5">Oceania</option>
-      </select>
-    </button>
-    <!--<di class="main__content">
-      <h4>Afica</h4>
-    </div> -->
-  </div>`;
-    await displayCountry();
-    const reg = document.getElementById("select");
-    reg.addEventListener("change", function () {
-      const region = reg.options[reg.selectedIndex].text;
-      countryContainer.innerHTML = "";
-      const displayResultFilter = async function (name) {
-        try {
-          const dataCountry = await fetch(
-            `https://restcountries.com/v3.1/region/${name}`
-          );
+        <input
+          type="text"
+          class="main__search--input"
+          placeholder="Search for a country..."
+        />
+      </form>
+      <div class="main__filter">
+        <button type="button" class="main__filter--btn">
+          <select name="region" id="region" class="select">
+            <option value="0" class="select-item">Filter by Region</option>
 
-          const data = await dataCountry.json();
-          sortData(data);
-          data.forEach((data) => {
-            const html = dataMarkup(data);
-            countryContainer.insertAdjacentHTML("beforeend", html);
-          });
-        } catch (err) {
-          console.log(err);
-        }
-      };
-      displayResultFilter(region);
-    });
+            <option class="select-item" value="1">Africa</option>
+            <option class="select-item" value="2">South America</option>
+            <option class="select-item" value="3">Asia</option>
+            <option class="select-item" value="4">Australia</option>
+            <option class="select-item" value="5">Europe</option>
+            <option class="select-item" value="6">North America</option>
+          </select>
+        </button>
+        <!--<di class="main__content">
+          <h4>Afica</h4>
+        </div> -->
+      </div>`;
+    await displayCountry();
 
     return;
   }
-  // mainContent.innerHTML = "";
-  countryContainer.innerHTML = "";
+  mainContent.innerHTML = "";
   mainSearch.innerHTML = "";
   mainDefault.innerHTML = "";
 
   await weatherApi(location);
-  document.querySelector(".btn--back").addEventListener("click", function () {
-    history.back();
-  });
 };
 
 const arr = ["hashchange"];
