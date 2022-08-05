@@ -124,7 +124,7 @@ const weatherMarkup = function (data, dataCountry) {
           <h4>${data.weather[0].main}</h4>
           <i class="county__box--text">${data.weather[0].description}</i>
         </div>
-        <img src="http://openweathermap.org/img/wn/${
+        <img src="https://openweathermap.org/img/wn/${
           data.weather[0].icon
         }@2x.png" alt="" class="cloud" />
       </div>
@@ -266,7 +266,7 @@ toggleFunction();
 // navigator.registerProtocolHandler()
 const weatherApi = async function (country) {
   const dataWeather = await fetch(
-    `http://api.openweathermap.org/data/2.5/weather?q=${country}&APPID=7856a02fd3ec28bf92c20b9f06aee22f`
+    `https://api.openweathermap.org/data/2.5/weather?q=${country}&APPID=7856a02fd3ec28bf92c20b9f06aee22f`
   );
   const dataCountryPromise = await fetch(
     `https://restcountries.com/v3.1/name/${country}`
